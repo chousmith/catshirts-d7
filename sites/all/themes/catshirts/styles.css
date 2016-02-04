@@ -1,0 +1,73 @@
+/* catshirts styles */
+
+@import 'fonts/stylesheet.css';
+
+body, #header, #footer-wrapper, #skip-link, ul.contextual-links, ul.links, ul.primary, .item-list .pager, div.field-type-taxonomy-term-reference, div.messages, div.meta, p.comment-time, table, .breadcrumb { font-family: "BlackoutMidnight" }
+#site-name, #site-slogan { font-family: "Blackout2AM" }
+
+body { color: #414141 }
+h1 { color: inherit }
+
+#page-wrapper, #footer { min-width: 320px }
+.no-sidebars #content, #header div.section, #featured div.section, #messages div.section, #main, #triptych, #footer-columns, #footer { width: 100% }
+
+#name-and-slogan { float: left; width: 100%; margin: 0; padding: 0 }
+#site-name { float: left; font-size: 2.15em  }
+#site-slogan { float: right }
+#main-menu-links, .views-exposed-form label { font-weight: normal; text-transform: uppercase }
+#main-menu-links, #content .section, .sidebar .section { padding: 0 }
+.no-sidebars #content, #header div.section, #featured div.section, #messages div.section, #main, #triptych, #footer-columns, #footer { width: 100% }
+#main { margin: 0 }
+
+.views-quicksand { float: left; height: auto; width: 6.25%; margin-right: 0; position: relative }
+.views-quicksand img { width: 100%; height: auto; float: left }
+.views-quicksand .views-field-field-date { color: #fff; position: absolute; top: 0; left: 5px; text-shadow: 0 0 2px rgba(0,0,0,0.88); display: none }
+.views-quicksand .views-field-title { position: absolute; bottom: 0; left: 5px; display: none }
+.views-quicksand.over .views-field-field-date, .views-quicksand.over .views-field-title { display: block }
+.views-quicksand .views-field-title a { color: #fff; text-shadow: 0 0 2px rgba(0,0,0,0.88) }
+.views-quicksand.over { z-index: 5; box-shadow: 0 0 8px #000 }
+
+#block-follow-site h2 { display: none }
+a.follow-link { float: left; width: 28px; padding: 0; margin-right: 5px; text-indent: -999em }
+#footer { border: none }
+
+.region-content .item-list.pic-grid ul { float: left; width: 850px; margin: 0 17px; padding: 0; list-style: none }
+.item-list.pic-grid ul li { float: left; width: 50px; height: 63px; margin: 0; padding: 0; list-style: none; position: relative }
+
+.node-catshirt .field-type-image { float: left; margin-right: 20px }
+.node-catshirt .field-type-image img { margin: 0 0 1.2em }
+.node-catshirt .field-label-inline { display: block; margin-bottom: 1.2em; height: 1.5em }
+.node-catshirt .field-label-inline .field-label, .node-catshirt .field-label-inline .field-items, .node-catshirt .field-label-inline .field-item { display: inline }
+
+#footer-wrapper { padding: 20px }
+#footer, #footer .region, #footer .block, #footer .block .content { margin: 0; padding: 0 }
+
+@media screen and (max-width:1600px) {/*10*/
+	.views-quicksand { width: 10% }
+}
+
+@media screen and (max-width:1100px) {/*8*/
+	.views-quicksand { width: 12.5% }
+}
+
+@media screen and (max-width:945px) {/*7*/
+	.views-quicksand { width: 14.28% }
+}
+
+@media screen and (max-width:760px) {/*6*/
+	.views-quicksand { width: 16.66% }
+}
+
+@media screen and (max-width:600px) {/*5*/
+	.views-quicksand { width: 20% }
+}
+
+@media screen and (max-width:480px) {/*4*/
+	#site-name { font-size: 1.88em }
+	.views-quicksand { width: 25% }
+	.node-catshirt .field-type-image { float: none; margin-right: 0; display: block; width: 100% }
+	.node-catshirt .field-type-image img { width: 100%; height: auto }
+}
+@media screen and (max-width:410px) {
+	#site-name { font-size: 1.41em }
+}

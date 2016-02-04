@@ -1,0 +1,142 @@
+<?php
+/**
+ * PhoneGap Mobile Upload - Jon Anthony april 2011
+ */
+function phonegap_menu() {
+  $items['phonegap/post'] = array(
+        'title'            => 'op_post',
+        'page callback'    => 'phonegap_op_post',
+        'access arguments' => array('access content'),
+        'type'             => MENU_CALLBACK
+  );
+  $items['phonegap/display_view'] = array(
+        'title'            => 'display_view',
+        'page callback'    => 'phonegap_display_view',
+        'access arguments' => array('access content'),
+        'type'             => MENU_CALLBACK
+  );
+  $items['phonegap/login'] = array(
+        'title'            => 'my_posts',
+        'page callback'    => 'phonegap_login',
+        'access arguments' => array('access content'),
+        'type'             => MENU_CALLBACK
+  );
+  $items['admin/config/services/phonegap'] = array(
+        'title'            => 'Phonegap options',
+        'description'      => 'Configure which content type is used to receive mobile posts',
+        'page callback'    => 'drupal_get_form',
+        'page arguments'   => array('phonegap_admin_settings'),
+        'type'             => MENU_NORMAL_ITEM,
+        'access arguments' => array('administer phonegap settings'),
+        'file'             => 'phonegap.admin.inc'
+  );
+  return $items;
+}
+
+/**
+ * Process posted article from mobile including credentials check 
+ */
+function phonegap_op_post() {
+  $title = $_REQUEST['title'];
+  $body = $_REQUEST['body'];
+  $username = $_REQUEST['username'];
+  $password = $_REQUEST['password'];
+  if (($username != '') && ($password != '')) {
+    $u = user_load_by_name($username);
+  }
+  if ($u && ($password == $u->pass)) {
+    if (user_access('post articles from mobile', $u) && ($title != '')) {
+      $result = phonegap_make_post($u, $title, $body);
+    } else {
+      $result = 'access_denied code check you have permission to post';
+    }
+  } else {
+    $result = 'user name and password d o not match ';
+  }
+  print $result;
+  exit;
+}
+
+/**
+ * Save node from posted mobile data and return node id 
+ */
+function phonegap_make_post($u, $title, $body) {
+  $pubprom = variable_get('phonegap_publish_content');
+  $publish = ($pubprom['published'] ? 1 : 0);
+  $promote = ($pubprom['promoted'] ? 1 : 0);
+  $contype = ((variable_get('phonegap_content_type')) ? (variable_get('phonegap_content_type')) : 'article');
+  $informat = ((variable_get('phonegap_input_format')) ? (variable_get('phonegap_input_format')) : 'filtered_html');
+  $node = new stdClass();
+  $node->type = $contype;
+  node_object_prepare($node);
+  $node->title    = $title;
+  $node->uid = $u->uid;
+  $node->language = LANGUAGE_NONE;
+  $node->body[$node->language][0]['value']   = $body;
+  $node->body[$node->language][0]['summary'] = text_summary($body);
+  $node->body[$node->language][0]['format']  = $informat;
+  $node->status = $publish;
+  $node->promote = $promote;
+  node_save($node);
+  return($node->nid);
+}
+
+/**
+ * Return view requested by mobile device
+ */
+function phonegap_display_view() {
+  $args = array();
+  $viewname = $_REQUEST['view'];
+  $display_id = $_REQUEST['display'];
+  $view = views_get_view($viewname);
+  $view->set_display($display_id);
+  $view->set_arguments($args);
+  print $view->preview();
+}
+
+/**
+ * Authenticate mobile user 
+ */
+function phonegap_login() {
+  $status = "fail";
+  $hash = "";
+  $username = $_REQUEST['username'];
+  $password = $_REQUEST['password'];
+  if (($username != '') && ($password != '')) {
+    $pwdst = user_authenticate($username, $password);
+    $u = user_load_by_name($username);
+  }
+  if ($pwdst) {
+    if (user_access('post articles from mobile', $u)) {
+      $result = "username and password confirmed";
+      $status = "ok";
+      $hash = $u->pass;
+    } else {
+      $result = 'there was a problem with your credentials please check you have permission to create articles';
+    }
+  } else {
+    $result = 'access denied please check your username and password ';
+  }
+    drupal_json_output(array(
+    'result' => $result,
+    'status' => $status,
+    'hash' => $hash
+    ));
+  exit();
+}
+
+/**
+ * Hook perm to define whether user can authenticate and upload content 
+ */
+function  phonegap_permission() {
+  return array(
+    'post articles from mobile' => array(
+    'title' => t('Post articles from mobile'), 
+    'description' => t('Post articles from the phonegap mobile app'),
+    ),
+    'administer phonegap settings' => array(
+    'title' => t('Administer phonegap settings'), 
+    'description' => t('Administer content type settings for the phonegap mobile app'),
+    ),
+  );
+}

@@ -1,0 +1,10 @@
+
+name = Catshirts
+description = Bartik sub-theme
+base theme = bartik
+core = 7.x
+engine = phptemplate
+
+stylesheets[all][] = styles.css
+
+scripts[] = cs.js

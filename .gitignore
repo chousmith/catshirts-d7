@@ -1,0 +1,8 @@
+# Ignore configuration files that may contain sensitive information.
+sites/*/settings*.php
+
+# Ignore files color and css and js and pictures because yea
+sites/default/files/color
+sites/default/files/css
+sites/default/files/js
+sites/default/files/pictures

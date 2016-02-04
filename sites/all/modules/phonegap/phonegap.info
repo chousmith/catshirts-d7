@@ -1,0 +1,13 @@
+name = "Phonegap"
+description = Allow mobile user posts
+dependencies[] = views
+core = "7.x"
+package = "Mobile"
+
+
+; Information added by drupal.org packaging script on 2011-11-19
+version = "7.x-1.0"
+core = "7.x"
+project = "phonegap"
+datestamp = "1321725342"
+
