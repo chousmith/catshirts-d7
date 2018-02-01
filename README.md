@@ -1,2 +1,3 @@
-# catshirts-d7
-original d7 codebase for catshirts dot chousmith dot com
+catshirts-d7
+============
+original d7 codes for catshirts dot chousmith
